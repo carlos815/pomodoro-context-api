@@ -1,10 +1,75 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: rgb(48, 48, 63)
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 175px;
+  margin-top: 1rem;
+}
+
+.secondaryButtons {
+  width: 100%;
+  display: flex;
+}
+
+.button,
+.mainButton {
+  margin-right: 4px;
+  border-radius: 9999px;
+  padding: 0.5rem;
+  border: none;
+  min-width: 56px;
+  font-weight: bold;
+}
+
+.buttons .mainButtonNegative {
+  margin-right: 4px;
+  border-radius: 9999px;
+  padding: 0.5rem;
+  border: none;
+  min-width: 56px;
+  font-weight: bold;
+  background-color: rgb(209, 58, 58)
+}
+
+.button {
+  background-color: white;
+  color: rgb(55, 55, 116);
+  border: 1px solid rgb(55, 55, 116);
+  width: 100%;
+}
+
+.mainButton {
+  background-color: rgb(55, 55, 116);
+  color: white;
+  /* box-shadow: 2px 2px 4px rgb(0, 0, 0, 0.3); */
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.button:hover,
+.mainButton:hover {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.buttons button:last-of-type {
+  margin-right: 0;
+}
+
+.timer {
+  font-size: 64px;
 }
 
 .description {
@@ -143,11 +208,9 @@
   inset: 0;
   padding: 1px;
   border-radius: var(--border-radius);
-  background: linear-gradient(
-    to bottom right,
-    rgba(var(--tile-start-rgb), 1),
-    rgba(var(--tile-end-rgb), 1)
-  );
+  background: linear-gradient(to bottom right,
+      rgba(var(--tile-start-rgb), 1),
+      rgba(var(--tile-end-rgb), 1));
   background-clip: content-box;
 }
 
@@ -226,11 +289,9 @@
     border-radius: 0;
     border: none;
     border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--background-start-rgb), 1),
-      rgba(var(--callout-rgb), 0.5)
-    );
+    background: linear-gradient(to bottom,
+        rgba(var(--background-start-rgb), 1),
+        rgba(var(--callout-rgb), 0.5));
     background-clip: padding-box;
     backdrop-filter: blur(24px);
   }
@@ -241,11 +302,9 @@
     inset: auto 0 0;
     padding: 2rem;
     height: 200px;
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgb(var(--background-end-rgb)) 40%
-    );
+    background: linear-gradient(to bottom,
+        transparent 0%,
+        rgb(var(--background-end-rgb)) 40%);
     z-index: 1;
   }
 }
@@ -272,6 +331,7 @@
   from {
     transform: rotate(360deg);
   }
+
   to {
     transform: rotate(0deg);
   }

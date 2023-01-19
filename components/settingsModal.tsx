@@ -4,12 +4,6 @@ import { defaultTimers, useLocalStorageState } from "../lib/localStorage"
 import styles from "./settingsModal.module.css"
 
 export const SettingsModal = ({ dialogRef }: { dialogRef: any }) => {
-    const handleSubmit = (e: any) => {
-        e.preventDefault()
-        setTimerSettings(localTimerSettings)
-        dialogRef?.current?.close();
-    }
-
     const { timerSettings, setTimerSettings } = useLocalStorageState()
     const [localTimerSettings, _setLocalTimerSettings] = useState(timerSettings)
 
@@ -28,6 +22,12 @@ export const SettingsModal = ({ dialogRef }: { dialogRef: any }) => {
     useEffect(() => {
         resetValues()
     }, [dialogRef.current?.open])
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault()
+        setTimerSettings(localTimerSettings)
+        dialogRef?.current?.close();
+    }
 
     return <form method="POST" onSubmit={handleSubmit} className={styles.settingsModal} >
         <fieldset className="" >

@@ -1,6 +1,35 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Status, timerType, TimerTypes } from './timer';
 
+//Custom hook to use the localStorage easily
+const useLocalStorage = (key: string, initialValue: any) => {
+    const [storedValue, setStoredValue] = useState(() => {
+        try {
+            const item = window.localStorage.getItem(key);
+            return item ? JSON.parse(item) : initialValue;
+        } catch (err) {
+            console.error(err);
+            return initialValue;
+        }
+    });
+
+    const setValue = (value: any) => {
+        try {
+            const valueToStore =
+                value instanceof Function ? value(storedValue) : value;
+            setStoredValue(valueToStore);
+            window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    return [storedValue, setValue];
+};
+
+export { useLocalStorage };
+
+
 export type LocalStateContextType = {
     timerSettings: TimerTypes,
     setTimerSettings: Function,
@@ -44,15 +73,15 @@ const initialPlaylist = [
 
 export const LocalStateContext = createContext<LocalStateContextType>({
     timerSettings: defaultTimers,
-    setTimerSettings: () => console.warn("no local state yet"),
     playlist: initialPlaylist,
-    setPlaylist: () => console.warn("no local state yet"),
     timer: defaultTimers[initialPlaylist[0]],
-    setTimer: () => console.warn("no local state yet"),
     timeRemaining: defaultTimers[initialPlaylist[0]].duration,
+    endTime: 0,
+    setTimerSettings: () => console.warn("no local state yet"),
+    setPlaylist: () => console.warn("no local state yet"),
+    setTimer: () => console.warn("no local state yet"),
     setTimeRemaining: () => console.warn("no local state yet"),
     setStatus: () => console.warn("no local state yet"),
-    endTime: 0,
     setEndTime: () => console.warn("no local state yet")
 });
 
@@ -126,30 +155,3 @@ function useLocalStorageState() {
 
 export { LocalStorageProvider, useLocalStorageState };
 
-//Custom hook to use the localStorage easily
-const useLocalStorage = (key: string, initialValue: any) => {
-    const [storedValue, setStoredValue] = useState(() => {
-        try {
-            const item = window.localStorage.getItem(key);
-            return item ? JSON.parse(item) : initialValue;
-        } catch (err) {
-            console.error(err);
-            return initialValue;
-        }
-    });
-
-    const setValue = (value: any) => {
-        try {
-            const valueToStore =
-                value instanceof Function ? value(storedValue) : value;
-            setStoredValue(valueToStore);
-            window.localStorage.setItem(key, JSON.stringify(valueToStore));
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    return [storedValue, setValue];
-};
-
-export { useLocalStorage };

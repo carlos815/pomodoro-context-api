@@ -5,9 +5,8 @@
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: rgb(48, 48, 63)
 }
+
 
 .buttons {
   display: flex;
@@ -42,7 +41,8 @@
   background-color: rgb(209, 58, 58)
 }
 
-.button {
+.button,
+.settingsButton {
   background-color: white;
   color: rgb(55, 55, 116);
   border: 1px solid rgb(55, 55, 116);
@@ -58,7 +58,8 @@
 }
 
 .button:hover,
-.mainButton:hover {
+.mainButton:hover,
+.settingsButton:hover {
   cursor: pointer;
   opacity: 0.8;
   transition: opacity 0.2s;
@@ -68,8 +69,39 @@
   margin-right: 0;
 }
 
+.settingsButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .timer {
   font-size: 64px;
+}
+
+.blinking {
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(2, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
 }
 
 .description {
@@ -295,6 +327,8 @@
     background-clip: padding-box;
     backdrop-filter: blur(24px);
   }
+
+
 
   .description div {
     align-items: flex-end;

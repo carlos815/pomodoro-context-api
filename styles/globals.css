@@ -78,6 +78,8 @@ body {
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(243, 243, 255);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: rgb(48, 48, 63)
 }
 
 a {

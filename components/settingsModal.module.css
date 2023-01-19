@@ -1,0 +1,90 @@
+.settingsModal {
+    padding: 18px 0;
+    color: rgb(48, 48, 63);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+.settingsModal fieldset {
+    border: none;
+    margin: 8px 0;
+}
+
+.settingsModal h1 {
+    text-align: center;
+}
+
+.settingsModal h2 {
+    font-size: 1.25rem;
+    /* text-transform: uppercase; */
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.settingsModal h3 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+
+
+.timerForm {
+    margin-bottom: 1.5rem;
+}
+
+.timerForm input {
+    border: none;
+    /* background-color: rgb(234, 234, 252); */
+    color: rgb(48, 48, 63);
+    font-size: 1.5rem;
+    /* border-radius: 0.5rem; */
+    padding: 0.5rem;
+    text-align: center;
+    width: 5rem;
+    border: 1px solid rgb(55, 55, 116);
+    ;
+    border-bottom: 3px solid rgb(55, 55, 116);
+    ;
+    border-radius: 4px;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+.timerForm input::-webkit-outer-spin-button,
+.timerForm input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.timerForm input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.inputs {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.mainButton {
+    background-color: rgb(55, 55, 116);
+    color: white;
+    margin-bottom: 8px;
+    margin-right: 4px;
+    border-radius: 9999px;
+    padding: 0.5rem;
+    border: none;
+    max-width: 128px;
+    font-weight: bold;
+}
+
+.mainButton:hover {
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}

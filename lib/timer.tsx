@@ -1,4 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import useAudio from "./useAudio"
+import { displayNotification, requestNotificationPermission } from "./notifications"
+import { defaultTimers, useLocalStorageState } from './localStorage';
 
 export enum Status {
     Pause = "pause",
@@ -8,43 +11,19 @@ export enum Status {
     Start = "start" //The timer hasn't started yet
 }
 
-
-type timerType = {
+export type timerType = {
     name: String,
     duration: number,
 }
-
-interface TimerTypes {
+export interface TimerTypes {
     [key: string]: timerType;
 }
-
-const timers: TimerTypes =
-{
-    pomodoro: {
-        name: "Pomodoro",
-        duration: 1500000
-    },
-    longBreak: {
-        name: "Long break",
-        duration: 600000
-    },
-    shortBreak: {
-        name: "Short break",
-        duration: 300000
-    }
-}
-
-
 
 export type LocalStateContextType = {
     playPause: Function,
     reset: Function,
     skip: Function,
     now: number,
-    status: Status,
-    timeRemaining: number,
-    endTime: number,
-    timer: timerType
 }
 
 export const LocalStateContext = createContext<LocalStateContextType>({
@@ -52,36 +31,21 @@ export const LocalStateContext = createContext<LocalStateContextType>({
     reset: () => console.warn("no local state yet"),
     skip: () => console.warn("no local state yet"),
     now: 0,
-    status: Status.Start,
-    timeRemaining: timers.pomodoro.duration,
-    endTime: 0,
-    timer: timers.pomodoro
 });
 
 export const LocalStateProvider = LocalStateContext.Provider;
 
-
-
 export default function TimerProvider({ children }: { children: ReactNode }) {
 
-    const [endTime, setEndTime] = useState(0)
-    const [timeRemaining, setTimeRemaining] = useState(timers.pomodoro.duration)
-    const [timer, setTimer] = useState(timers.pomodoro)
     const [now, setNow] = useState(0)
-    const [status, setStatus] = useState<Status>(Status.Start)
-    const [playlist, setPlaylist] = useState<timerType[]>([
-        timers.pomodoro,
-        timers.shortBreak,
-        timers.pomodoro,
-        timers.shortBreak,
-        timers.pomodoro,
-        timers.shortBreak,
-        timers.pomodoro,
-        timers.longBreak,
-    ])
-    //TODO: Localstorage. Use effect ot check if there's something in local storage,
+    const { timerSettings, playlist, setPlaylist, timer, setTimer, timeRemaining, setTimeRemaining, status, setStatus, endTime, setEndTime } = useLocalStorageState()
+
+    const { playAudio: playAlarm, stopAudio: stopAlarm, audio } = useAudio(
+        "/alarm.ogg"
+    );
 
     const playPause = () => {
+        requestNotificationPermission()
         switch (status) {
             case Status.Play:
                 setStatus(Status.Pause)
@@ -108,27 +72,31 @@ export default function TimerProvider({ children }: { children: ReactNode }) {
         setStatus(Status.Start)
         setTimeRemaining(timer.duration)
     }
+
     const ended = () => {
+        playAlarm()
         setStatus(Status.Ended)
+        displayNotification(`${timer.name} ended.`, { body: "You are doing great!" })
         setTimeRemaining(0)
     }
 
     const skip = () => {
+        //Sending the first item in the playlist to the last spot 
         const _playlist = playlist;
         const _firstItem = _playlist[0]
         _playlist.shift()
         _playlist.push(_firstItem)
-        const newTimer = _playlist[0]
+        const newTimer = timerSettings[_playlist[0]]
         setPlaylist(_playlist)
         setUpNewTimer(newTimer)
     }
-
 
     const setUpNewTimer = (newTimer: timerType) => {
         setTimer(newTimer)
         setTimeRemaining(newTimer.duration)
         setStatus(Status.Start)
     }
+
     useEffect(() => {
         const interval = setInterval(() => {
             setNow(Date.now())
@@ -136,7 +104,23 @@ export default function TimerProvider({ children }: { children: ReactNode }) {
         return () => clearInterval(interval)
     }, [])
 
+
     useEffect(() => {
+        //This stops the alarm when you click anywhere or change to the tab with the timer
+        if (audio) {
+            document.addEventListener('visibilitychange', function () {
+                if (document.visibilityState === 'visible') {
+                    stopAlarm()
+                }
+            })
+            document.addEventListener('click', function () {
+                stopAlarm()
+            })
+        }
+    }, [audio])
+
+    useEffect(() => {
+        //This is a listener of sorts. When it notices that the timer reaches zero, it sends the ended function which sounds the alarm
         if (status == Status.Play && (endTime - now) < 0) {
             ended()
         }
@@ -148,10 +132,6 @@ export default function TimerProvider({ children }: { children: ReactNode }) {
             reset,
             skip,
             now,
-            status,
-            timeRemaining,
-            endTime,
-            timer
         }
     }>
         {children}</LocalStateProvider>

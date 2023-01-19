@@ -1,0 +1,55 @@
+.baseModal {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 16px;
+    min-width: 256px;
+    width: 500px;
+    border: none;
+    border-radius: 16px;
+    background: rgb(243, 243, 255);
+    text-align: center;
+
+
+}
+
+.baseModal::backdrop {
+    background-color: rgb(48, 48, 63, 0.5);
+}
+
+.baseModal h1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgb(48, 48, 63)
+}
+
+.closeButton {
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 0.75rem;
+    font-weight: bold;
+    height: 24px;
+    width: 24px;
+
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 9999px;
+
+    margin: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    color: rgb(55, 55, 116);
+    border: none
+}
+
+
+
+.closeButton:hover {
+    cursor: pointer;
+}

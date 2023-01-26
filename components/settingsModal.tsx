@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react"
-import { defaultTimers, useLocalStorageState } from "../lib/localStorage"
+import { useLocalStorageState } from "../lib/localStorage"
 
 import styles from "./settingsModal.module.css"
 

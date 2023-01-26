@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Status, timerType, TimerTypes } from './timer';
+import { defaultTimers, initialPlaylist } from '../shared/constants';
+import { Status, timerType, TimerTypes } from '../shared/types';
 
 //Custom hook to use the localStorage easily
 const useLocalStorage = (key: string, initialValue: any) => {
@@ -30,7 +31,7 @@ const useLocalStorage = (key: string, initialValue: any) => {
 export { useLocalStorage };
 
 
-export type LocalStateContextType = {
+type LocalStateContextType = {
     timerSettings: TimerTypes,
     setTimerSettings: Function,
     playlist: string[],
@@ -44,32 +45,6 @@ export type LocalStateContextType = {
     endTime: number,
     setEndTime: Function
 }
-export const defaultTimers: TimerTypes =
-{
-    pomodoro: {
-        name: "Pomodoro",
-        duration: 1500000
-    },
-    longBreak: {
-        name: "Long break",
-        duration: 600000
-    },
-    shortBreak: {
-        name: "Short break",
-        duration: 300000
-    }
-}
-
-const initialPlaylist = [
-    "pomodoro",
-    "shortBreak",
-    "pomodoro",
-    "shortBreak",
-    "pomodoro",
-    "shortBreak",
-    "pomodoro",
-    "longBreak",
-]
 
 export const LocalStateContext = createContext<LocalStateContextType>({
     timerSettings: defaultTimers,

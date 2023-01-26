@@ -1,23 +1,8 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import useAudio from "./useAudio"
 import { displayNotification, requestNotificationPermission } from "./notifications"
-import { defaultTimers, useLocalStorageState } from './localStorage';
-
-export enum Status {
-    Pause = "pause",
-    Play = "play",
-    Stop = "stop",
-    Ended = "ended",
-    Start = "start" //The timer hasn't started yet
-}
-
-export type timerType = {
-    name: String,
-    duration: number,
-}
-export interface TimerTypes {
-    [key: string]: timerType;
-}
+import { useLocalStorageState } from './localStorage';
+import { Status, timerType } from '../shared/types';
 
 export type LocalStateContextType = {
     playPause: Function,
@@ -55,7 +40,6 @@ export default function TimerProvider({ children }: { children: ReactNode }) {
                 setStatus(Status.Play)
                 setEndTime(timeRemaining + now)
                 break
-            case (Status.Stop):
             case (Status.Start):
                 setEndTime(timeRemaining + now)
                 setStatus(Status.Play)

@@ -2,13 +2,14 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
-import { Status, useTimer } from '../lib/timer'
 import { ChangeEvent, ChangeEventHandler, FormEvent, useEffect, useRef, useState } from 'react'
 import GearIcon from "../public/gear.svg"
 import BaseModal from '../components/baseModal'
 import { requestNotificationPermission } from '../lib/notifications'
 import { SettingsModal } from '../components/settingsModal'
 import { useLocalStorageState } from '../lib/localStorage'
+import { useTimer } from '../lib/timer'
+import { Status } from '../shared/types'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -29,8 +30,6 @@ export default function Home() {
         return "⯈"
       case Status.Pause:
         return "❙❙"
-      case Status.Stop:
-        return "◼"
       case Status.Ended:
         return "✓"
       default:
@@ -46,8 +45,6 @@ export default function Home() {
         return "Pause"
       case Status.Pause:
         return "Continue"
-      case Status.Stop:
-        return "Start"
       case Status.Ended:
         return "Next"
       default:
@@ -86,7 +83,7 @@ export default function Home() {
         <h2>{statusIndicator()}</h2>
         <div className={styles.buttons}>
           <button className={`${styles.mainButton} ${status == Status.Play && styles.mainButtonNegative}`} onClick={() => { playPause() }}>{mainButtonText()}</button>
-          <div className={styles.secondaryButtons}> <button className={styles.button} onClick={() => { reset() }} disabled={status == Status.Stop}>Reset</button>
+          <div className={styles.secondaryButtons}> <button className={styles.button} onClick={() => { reset() }} disabled={status == Status.Start}>Reset</button>
             <button className={styles.button} onClick={() => { skip() }}>Skip</button></div>
         </div>
         <button className={styles.settingsButton} onClick={() => settingsDialogRef.current?.showModal()

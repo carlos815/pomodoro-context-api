@@ -1,16 +1,12 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
-import { ChangeEvent, ChangeEventHandler, FormEvent, useEffect, useRef, useState } from 'react'
+import { useTimer } from '../lib/timer'
+import { useEffect, useRef } from 'react'
 import GearIcon from "../public/gear.svg"
 import BaseModal from '../components/baseModal'
-import { requestNotificationPermission } from '../lib/notifications'
 import { SettingsModal } from '../components/settingsModal'
 import { useLocalStorageState } from '../lib/localStorage'
-import { useTimer } from '../lib/timer'
 import { Status } from '../shared/types'
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
@@ -77,7 +73,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-
         <h2>{timer.name}</h2>
         <h1 className={`${styles.timer} ${status == Status.Ended && styles.blinking}`}>{getMinutes(onScreenTime)} : {getSeconds(onScreenTime)}</h1>
         <h2>{statusIndicator()}</h2>
@@ -97,37 +92,6 @@ export default function Home() {
     </>
   )
 }
-
-function LabeledInput({
-  htmlFor,
-  label,
-  name,
-  placeholder,
-  value,
-  onChange,
-  type = "text",
-}: {
-  name: string,
-  value: string,
-  onChange: ChangeEventHandler<HTMLInputElement>,
-  htmlFor?: string,
-  label?: string,
-  placeholder?: string,
-  type?: string
-}) {
-  return <label htmlFor={htmlFor ?? name} className="">
-    <div className="">{label ?? name}</div>
-    <input
-      type={type ?? "text"}
-      name={name}
-      placeholder={placeholder ?? label ?? name}
-      autoComplete={name ?? name}
-      value={value}
-      onChange={onChange}
-      className="" />
-  </label>
-}
-
 
 const minDigits = (numStr: String, digits: Number) => {
   while (numStr.length < digits) {

@@ -33,16 +33,11 @@ export default function TimerProvider({ children }: { children: ReactNode }) {
         requestNotificationPermission()
         switch (status) {
             case Status.Play:
-                setStatus(Status.Pause)
-                setTimeRemaining(endTime - now)
-                break
-            case Status.Pause:
-                setStatus(Status.Play)
-                setEndTime(timeRemaining + now)
+                pause()
                 break
             case (Status.Start):
-                setEndTime(timeRemaining + now)
-                setStatus(Status.Play)
+            case Status.Pause:
+                play()
                 break
             case Status.Ended:
                 skip()
@@ -50,6 +45,15 @@ export default function TimerProvider({ children }: { children: ReactNode }) {
             default:
                 console.error("Play status not recognized")
         }
+    }
+    const play = () => {
+        setStatus(Status.Play)
+        setEndTime(timeRemaining + now)
+    }
+
+    const pause = () => {
+        setStatus(Status.Pause)
+        setTimeRemaining(endTime - now)
     }
 
     const reset = () => {
